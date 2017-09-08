@@ -1,0 +1,43 @@
+@import "../../styles/palette";
+@import "../../styles/mixins";
+@import "../../styles/constants";
+
+.header {
+  background-color: @accent-color;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title-link {
+  height: @huge-size + @big-size;
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+  justify-content: space-around;
+}
+
+.header-titles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.header-main-title {
+  color: @contrast-text-color;
+  padding: @middle-size;
+  font-size: @middle-text;
+  font-family: monospace;
+  .text-shadow;
+}
+
+.header-subtitle {
+  padding: @middle-size;
+  .text-shadow;
+  .upper-text;
+}
+
+.header-logo {
+  height: 100%;
+}

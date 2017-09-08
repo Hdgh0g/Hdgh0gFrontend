@@ -1,0 +1,60 @@
+@import "../../styles/palette";
+@import "../../styles/constants";
+@import "../../styles/mixins";
+@import "../Hdgh0gSite/Hdgh0gSite.css";
+
+.nav-bar {
+  display: flex;
+  background-color: @primary-color;
+  .default-shadow;
+  height: @big-size;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.nav-bar-sticky {
+  display: flex;
+  background-color: @primary-color;
+  .default-shadow;
+  height: @big-size;
+  box-sizing: border-box;
+  justify-content: center;
+  position:fixed;
+  top: 0;
+  width: 100%;
+}
+
+.nav-bar-item {
+  padding-left: @small-size * 1.5;
+  padding-right: @small-size * 1.5;
+  border-color: @accent-color;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+
+  transition: @slow-transition;
+
+  &:hover {
+    background-color: @accent-color;
+    .text-shadow;
+  }
+}
+
+.nav-bar-logo-combo {
+  height: 100%;
+  padding-right: @small-size * 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.nav-bar-item-link {
+  .upper-text;
+}
+
+.nav-bar-logo {
+  .round-fit-image;
+}

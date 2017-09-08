@@ -1,0 +1,37 @@
+@import "../../styles/palette";
+@import "../../styles/mixins";
+@import "../../styles/constants";
+
+.project{
+  width: 100%;
+  height: @huge-size * 2;
+  display: flex;
+  flex-direction: row;
+  background-color: @primary-color;
+  align-items: center;
+  margin-bottom : @small-size;
+
+  .default-shadow;
+}
+
+.project-image {
+  .round-fit-image
+}
+
+.project-caption {
+  .upper-text;
+}
+
+.project-description {
+  color: @text-color;
+  padding-top: @small-size;
+  padding-bottom: @small-size;
+}
+
+.project-texts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: @small-size;
+  padding-bottom: @small-size;
+}

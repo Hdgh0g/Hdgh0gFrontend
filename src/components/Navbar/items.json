@@ -1,0 +1,10 @@
+[{
+  "caption": "Главная",
+  "link": "/"
+}, {
+  "caption": "Как-будто фотограф",
+  "link": "/photo"
+},{
+  "caption": "Обо мне",
+  "link": "/about"
+}]
