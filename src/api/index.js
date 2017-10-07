@@ -1,5 +1,6 @@
-const API_URL = 'http://localhost:9000';
+import config from '../config/config'
 const PHOTOS_ON_PAGE = 7;
+const API_URL = config.API_URL;
 
 export default {
 
