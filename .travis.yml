@@ -11,6 +11,6 @@ before_script:
 script:
   - npm i
   - npm run build
-  - rsync -r --delete-after --quiet ./build travis@hdgh0g.com:/home/staticsite/main
+  - rsync -r --delete-after --quiet ./build/ travis@hdgh0g.com:/home/staticsite/main
 notifications:
   email: false
