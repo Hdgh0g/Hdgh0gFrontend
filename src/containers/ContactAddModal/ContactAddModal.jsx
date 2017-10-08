@@ -52,12 +52,6 @@ class ContactAddModal extends Component {
     );
   }
 
-  handleInputKeyUp(key) {
-    if (key.key === "Enter") {
-      this.sendContact();
-    }
-  }
-
   updateTitle(title) {
     this.setState({title})
   }
@@ -66,16 +60,12 @@ class ContactAddModal extends Component {
     this.setState({description})
   }
 
-  updateUrl(evt) {
-    this.setState({
-      url: evt.target.value
-    })
+  updateUrl(url) {
+    this.setState({url})
   }
 
-  setImageId(id) {
-    this.setState({
-      imageId: id
-    })
+  setImageId(imageId) {
+    this.setState({imageId})
   }
 
   clearImageId() {

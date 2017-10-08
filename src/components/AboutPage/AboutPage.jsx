@@ -13,7 +13,6 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import "./AboutPage.css"
-import "../../containers/Modal/modal.css"
 import Button from "../../containers/Button/Button";
 
 class AboutPage extends Component {
@@ -21,7 +20,7 @@ class AboutPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isContactAddModalActive: true,
+      isContactAddModalActive: false,
       isTechnologyAddModalActive: false,
       isProjectAddModalActive: false,
       isActive: false,

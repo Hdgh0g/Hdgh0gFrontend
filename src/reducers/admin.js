@@ -1,7 +1,6 @@
 import * as actionTypes from '../actions/login';
 
 const admin = (state = {loggedIn: false, password: null, errorMessage: ''}, action) => {
-  console.log(action);
   switch (action.type) {
     case actionTypes.LOGGING_IN:
     case actionTypes.LOGGED_OUT:
