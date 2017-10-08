@@ -46,11 +46,19 @@ class LoginForm extends Component {
   renderLoginForm() {
     return(
       <div className="loginForm">
-        <input type="password" onChange={(e) => this.updatePassword(e)}/>
+        <input type="password"
+               onChange={(e) => this.updatePassword(e)}
+               onKeyUp={(key) => this.handleInputKeyUp(key)}/>
         <Button caption="Войти" onClick={() => this.props.actions.login(this.state.passwordValue)}/>
         <p className="loginForm-message">{this.props.errorMessage}</p>
       </div>
     )
+  }
+
+  handleInputKeyUp(key) {
+    if (key.key === "Enter") {
+      this.props.actions.login(this.state.passwordValue);
+    }
   }
 
   updatePassword(evt) {

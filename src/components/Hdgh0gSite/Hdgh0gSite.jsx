@@ -3,6 +3,7 @@ import Header from '../Header/Header.jsx'
 import MainPage from '../MainPage/MainPage.jsx'
 import './Hdgh0gSite.css'
 import NavBar from "../Navbar/NavBar.jsx";
+import {connect} from 'react-redux'
 import {StickyContainer, Sticky} from 'react-sticky';
 
 class Hdgh0gSite extends Component {
@@ -18,6 +19,7 @@ class Hdgh0gSite extends Component {
               {
                 (props) => <NavBar
                   isSticky={props.isSticky}
+                  loggedIn={this.props.loggedIn}
                 />
               }
             </Sticky>
@@ -33,4 +35,10 @@ class Hdgh0gSite extends Component {
   }
 }
 
-export default Hdgh0gSite;
+export default connect(
+  (state) => {
+    return {
+      loggedIn: state.admin.loggedIn,
+    }
+  },
+)(Hdgh0gSite);

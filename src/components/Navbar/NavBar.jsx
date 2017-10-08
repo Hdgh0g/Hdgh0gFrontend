@@ -4,13 +4,18 @@ import './NavBar.css'
 import items from './items.json'
 
 class NavBar extends Component {
-  static defaultProps = {
-    items,
-    isSticky: false,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      items
+    };
+  }
 
   render() {
-    let navBarItems = this.props.items.map(item => (
+    let navBarItems = this.state.items
+      .filter(item => !item.isAdmin || this.props.loggedIn)
+      .map(item => (
       <Link className="nav-bar-item"
             key={item.caption}
             to={item.link}
@@ -20,19 +25,21 @@ class NavBar extends Component {
     ));
 
     if (this.props.isSticky) {
-      let firstItem = items[0];
-      navBarItems[0] = (
-        <Link className="nav-bar-item"
-              to={firstItem.link}
-              key={firstItem.caption}
-        >
-          <div className="nav-bar-logo-combo">
-            <img alt="logo" src='/img/logo.jpg'
-                 className="nav-bar-logo"/>
-            <div className="nav-bar-item-link">{firstItem.caption}</div>
-          </div>
-        </Link>
-      )
+      let firstItem = this.state.items[0];
+      if (firstItem) {
+        navBarItems[0] = (
+          <Link className="nav-bar-item"
+                to={firstItem.link}
+                key={firstItem.caption}
+          >
+            <div className="nav-bar-logo-combo">
+              <img alt="logo" src='/img/logo.jpg'
+                   className="nav-bar-logo"/>
+              <div className="nav-bar-item-link">{firstItem.caption}</div>
+            </div>
+          </Link>
+        )
+      }
     }
 
     return (

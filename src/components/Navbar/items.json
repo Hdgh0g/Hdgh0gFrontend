@@ -7,4 +7,8 @@
 },{
   "caption": "Обо мне",
   "link": "/about"
+},{
+  "caption" : "Админка",
+  "link" : "/admin",
+  "isAdmin" : true
 }]
