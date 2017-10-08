@@ -26,10 +26,13 @@
   background-color: #230057;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 150px;
 }
 .header-title-link {
   height: 150px;
+  width: 100%;
   display: flex;
   flex-direction: row;
   text-decoration: none;

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router';
+import LoginForm from '../LoginForm/LoginForm.jsx'
 import './Header.css'
 
 class Header extends Component {
@@ -21,6 +22,7 @@ class Header extends Component {
             </div>
           </div>
         </Link>
+        <LoginForm/>
       </div>
     );
   }

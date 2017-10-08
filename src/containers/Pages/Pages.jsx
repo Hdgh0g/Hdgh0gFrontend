@@ -10,7 +10,7 @@ class Pages extends Component {
 
   render() {
     if (this.props.pagesCount < 1) {
-      return
+      return null;
     }
     return <div className="pages">
       <div className="pages-title">Перейти на страницу</div>
