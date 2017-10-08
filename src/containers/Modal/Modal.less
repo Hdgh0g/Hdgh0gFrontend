@@ -1,0 +1,26 @@
+@import "../../styles/palette";
+@import "../../styles/constants";
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: @modal-overlay-color;
+}
+
+.modal {
+  background-color: @background-color;
+  position: absolute;
+  top: @big-size;
+  left: @big-size;
+  bottom: @big-size;
+  right: @big-size;
+  padding: @small-size;
+  min-width: @min-content-width;
+}
+
+.ReactModal__Body--open {
+  overflow: hidden;
+}

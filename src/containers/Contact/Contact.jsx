@@ -5,15 +5,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router';
 
 class Contact extends Component {
-
-  static defaultProps = {
-    title: "Title",
-    link: null,
-    text: "testText",
-    image: null,
-  };
-
-  render() {
+    render() {
     return (
       <Link
         className="contact"
