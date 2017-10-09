@@ -1,1 +1,2 @@
 export const PROMISE = 'PROMISE';
+export const AUTHORIZED_PROMISE = 'AUTHORIZED_PROMISE';

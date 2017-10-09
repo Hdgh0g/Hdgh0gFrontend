@@ -5,11 +5,20 @@ import Dropzone from "react-dropzone";
 import "./ImageUpload.css"
 
 class ImageUpload extends Component {
+
+  componentWillMount() {
+    this.props.clearImage();
+  }
+
   render() {
     return (
       <div className="image-upload">
         <label>Изображение</label>
-        {!this.props.imageUploaded ? this.renderUploadedImage() : this.renderDropzone()}
+        {
+          this.props.image
+            ? this.renderUploadedImage()
+            : this.renderDropzone()
+        }
       </div>
     )
   }
@@ -17,7 +26,7 @@ class ImageUpload extends Component {
   renderUploadedImage() {
     return (
       <div>
-        <Button caption="✖" onClick={() => this.clearImage()}/>
+        <Button caption="✖" onClick={() => this.props.clearImage()}/>
         <div className="image-uploaded">
           <img alt={this.props.imageId}
                src={ImagesUtils.getThumbnailOrDefault(this.props.image)}
@@ -30,13 +39,13 @@ class ImageUpload extends Component {
 
   renderDropzone() {
     return (
-      <Dropzone/>
+      <div>
+        <Dropzone onDropAccepted={images => this.props.uploadImage(images[0])}/>
+        <label>{this.props.imageError}</label>
+      </div>
     )
   }
 
-  clearImage() {
-    console.log("clearing");
-  }
 }
 
 export default ImageUpload

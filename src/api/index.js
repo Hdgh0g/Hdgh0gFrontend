@@ -6,37 +6,79 @@ const API_URL = config.API_URL;
 export default {
 
   getTechnologies() {
-    return get(`${API_URL}/technologies`);
+    return get(`/technologies`);
   },
 
   getContacts() {
-    return get(`${API_URL}/contacts`);
+    return get(`/contacts`);
+  },
+
+  postContact(credentials, contact) {
+    return postJsonData(`/contacts`, contact, credentials);
+  },
+
+  removeContact(credentials, id) {
+    return del(`/contacts/${id}`, credentials);
   },
 
   getProjects() {
-    return get(`${API_URL}/projects`);
+    return get(`/projects`);
   },
 
   getPhotos(page) {
     page = page ? page : 0;
-    return get(`${API_URL}/images/withCaption?page=${page}&size=${PHOTOS_ON_PAGE}`)
+    return get(`/images/withCaption?page=${page}&size=${PHOTOS_ON_PAGE}`)
   },
 
   login(password) {
-    return postFormData(`${API_URL}/admin/login`, {password});
+    return postFormData(`/admin/login`, {password});
+  },
+
+  postImage(credentials, image) {
+    return postFormData(`/images`, {image}, credentials)
   }
 }
 
 function get(url) {
-  return fetch(url).then(processResult);
+  return fetch(`${API_URL}${url}`).then(processResult);
 }
 
-function postFormData(url, body) {
+function del(url, credentials) {
+  let headers = new Headers();
+  if (credentials) {
+    headers.append("Authorization", credentials);
+  }
+  return fetch(`${API_URL}${url}`, {
+    method : "DELETE",
+    headers,
+  }).then(processResult)
+}
+
+function postJsonData(url, body, credentials) {
+  let headers = new Headers();
+  if (credentials) {
+    headers.append("Authorization", credentials);
+  }
+  headers.append("Content-Type", "application/json");
+  return fetch(`${API_URL}${url}`, {
+    method: "POST",
+    body: JSON.stringify(body),
+    headers
+  }).then(r => processResult(r, body));
+}
+
+function postFormData(url, body, credentials) {
   let formData = new FormData();
   Object.keys(body).forEach(key => formData.append(key, body[key]));
-  return fetch(url, {
+
+  let headers = new Headers();
+  if (credentials) {
+    headers.append("Authorization", credentials);
+  }
+  return fetch(`${API_URL}${url}`, {
     method: "POST",
     body: formData,
+    headers,
   }).then(r => processResult(r, body));
 }
 

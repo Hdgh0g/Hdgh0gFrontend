@@ -7,8 +7,9 @@ import ContactAddModal from '../../containers/ContactAddModal/ContactAddModal.js
 import TechnologyAddModal from '../../containers/TechnologyAddModal/TechnologyAddModal.jsx'
 import TopText from '../../containers/TopText/TopText.jsx'
 import {getTechnologies} from '../../actions/technologies.js'
-import {getContacts} from '../../actions/contacts.js'
+import {getContacts, postContact, removeContact} from '../../actions/contacts.js'
 import {getProjects} from '../../actions/projects.js'
+import {clearImage, uploadImage} from '../../actions/image.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
@@ -66,6 +67,12 @@ class AboutPage extends Component {
         <ContactAddModal
           isOpen={this.state.isContactAddModalActive}
           onRequestClose={() => this.closeContactAddModal()}
+          clearImage={this.props.actions.clearImage}
+          uploadImage={this.props.actions.uploadImage}
+          image={this.props.image}
+          imageError={this.props.imageError}
+          contactUploadError={this.props.contactUploadError}
+          postContact={this.props.actions.postContact}
         />
         <TechnologyAddModal
           isOpen={this.state.isTechnologyAddModalActive}
@@ -92,7 +99,8 @@ class AboutPage extends Component {
     if (this.props.loggedIn) {
       technologies.push(<Button
         key="button"
-        caption="Добавить технологию" onClick={() => this.showTechnologyAddModal()}/>);
+        caption="Добавить технологию"
+        onClick={() => this.showTechnologyAddModal()}/>);
     }
     return technologies;
   };
@@ -104,15 +112,19 @@ class AboutPage extends Component {
     let contacts = this.props.contactsList.map(contact =>
       <Contact
         key={contact.id}
+        id={contact.id}
         image={contact.image}
         title={contact.title}
         link={contact.url}
         text={contact.description}
+        removeContact={this.props.actions.removeContact}
+        loggedIn={this.props.loggedIn}
       />);
     if (this.props.loggedIn) {
       contacts.push(<Button
         key="button"
-        caption="Добавить контакт" onClick={() => this.showContactAddModal()}/>);
+        caption="Добавить контакт"
+        onClick={() => this.showContactAddModal()}/>);
     }
     return contacts;
   };
@@ -132,7 +144,8 @@ class AboutPage extends Component {
     if (this.props.loggedIn) {
       projects.push(<Button
         key="button"
-        caption="Добавить проект" onClick={() => this.showProjectAddModal()}/>);
+        caption="Добавить проект"
+        onClick={() => this.showProjectAddModal()}/>);
     }
     return projects;
   }
@@ -190,6 +203,9 @@ export default connect(
       projectsList: state.projects.projectsList,
       projectsError: state.projects.projectsError,
       loggedIn: state.admin.loggedIn,
+      image: state.image.image,
+      imageError : state.image.error,
+      contactUploadError : state.contacts.uploadError,
     };
   },
   (dispatch) => {
@@ -198,6 +214,10 @@ export default connect(
         getTechnologies: bindActionCreators(getTechnologies, dispatch),
         getContacts: bindActionCreators(getContacts, dispatch),
         getProjects: bindActionCreators(getProjects, dispatch),
+        uploadImage: bindActionCreators(uploadImage, dispatch),
+        clearImage: bindActionCreators(clearImage, dispatch),
+        postContact: bindActionCreators(postContact, dispatch),
+        removeContact: bindActionCreators(removeContact, dispatch),
       }
     }
   }

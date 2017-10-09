@@ -40,13 +40,16 @@ class ContactAddModal extends Component {
             onEnter={() => this.sendContact()}
           />
           <ImageUpload
-            onUpload={(id) => this.setImageId(id)}
-            onCancel={() => this.clearImageId()}
+            uploadImage={this.props.uploadImage}
+            clearImage={this.props.clearImage}
+            image={this.props.image}
+            imageError={this.props.imageError}
           />
           <Button
             caption="Сохранить контакт"
             onClick={() => this.sendContact()}
           />
+          <label>{this.props.contactUploadError}</label>
         </div>
       </Modal>
     );
@@ -64,26 +67,16 @@ class ContactAddModal extends Component {
     this.setState({url})
   }
 
-  setImageId(imageId) {
-    this.setState({imageId})
-  }
-
-  clearImageId() {
-    this.setState({
-      imageId: null
-    })
-  }
-
   sendContact() {
     const contact = {
       title: this.state.title,
       description: this.state.description,
       url: this.state.url,
       image: {
-        id: this.state.imageId,
+        id: this.props.image ? this.props.image.id : null,
       }
     };
-    console.log(contact);
+    this.props.postContact(contact);
   }
 }
 

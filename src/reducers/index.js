@@ -6,6 +6,7 @@ import contacts from './contacts'
 import projects from './projects'
 import photos from './photos'
 import admin from './admin'
+import image from './image'
 
 const rootReducer = combineReducers({
   routing: routerReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   contacts,
   projects,
   photos,
-  admin
+  admin,
+  image
 });
 
 export default rootReducer;
