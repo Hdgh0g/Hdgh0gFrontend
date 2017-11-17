@@ -5,15 +5,8 @@ import items from './items.json'
 
 class NavBar extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      items
-    };
-  }
-
   render() {
-    let navBarItems = this.state.items
+    let navBarItems = items
       .filter(item => !item.isAdmin || this.props.loggedIn)
       .map(item => (
       <Link className="nav-bar-item"
@@ -25,7 +18,7 @@ class NavBar extends Component {
     ));
 
     if (this.props.isSticky) {
-      let firstItem = this.state.items[0];
+      let firstItem = items[0];
       if (firstItem) {
         navBarItems[0] = (
           <Link className="nav-bar-item"

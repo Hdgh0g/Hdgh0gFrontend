@@ -10,6 +10,10 @@ import {getTechnologies, removeTechnology} from '../../actions/technologies.js'
 import {getContacts, postContact, removeContact} from '../../actions/contacts.js'
 import {getProjects} from '../../actions/projects.js'
 import {clearImage, uploadImage} from '../../actions/image.js'
+import {
+  addContactProperty, setContactModalVisible,
+  setTechnologyModalVisible, setProjectModalVisible
+} from '../../actions/modal.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
@@ -17,16 +21,6 @@ import "./AboutPage.css"
 import Button from "../../containers/Button/Button";
 
 class AboutPage extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isContactAddModalActive: false,
-      isTechnologyAddModalActive: false,
-      isProjectAddModalActive: false,
-      isActive: false,
-    };
-  }
 
   componentWillMount() {
     this.props.actions.getTechnologies();
@@ -65,21 +59,23 @@ class AboutPage extends Component {
           {this.renderProjects()}
         </div>
         <ContactAddModal
-          isOpen={this.state.isContactAddModalActive}
-          onRequestClose={() => this.closeContactAddModal()}
+          isOpen={this.props.modal.contact.active}
+          onRequestClose={() => this.props.actions.setContactModalVisible(false)}
           clearImage={this.props.actions.clearImage}
           uploadImage={this.props.actions.uploadImage}
           image={this.props.image}
           imageError={this.props.imageError}
           contactUploadError={this.props.contactUploadError}
           postContact={this.props.actions.postContact}
+          contact={this.props.modal.contact.object}
+          addProperty={this.props.actions.addContactProperty}
         />
         <TechnologyAddModal
-          isOpen={this.state.isTechnologyAddModalActive}
+          isOpen={this.props.modal.technology.active}
           onRequestClose={() => this.closeTechnologyAddModal()}
         />
         <ProjectAddModal
-          isOpen={this.state.isProjectAddModalActive}
+          isOpen={this.props.modal.project.active}
           onRequestClose={() => this.closeProjectAddModal()}
         />
       </div>
@@ -127,7 +123,7 @@ class AboutPage extends Component {
       contacts.push(<Button
         key="button"
         caption="Добавить контакт"
-        onClick={() => this.showContactAddModal()}/>);
+        onClick={() => this.props.actions.setContactModalVisible(true)}/>);
     }
     return contacts;
   };
@@ -152,48 +148,6 @@ class AboutPage extends Component {
     }
     return projects;
   }
-
-  showProjectAddModal() {
-    if (!this.state.isContactAddModalActive && !this.state.isTechnologyAddModalActive) {
-      this.setState({
-        isProjectAddModalActive: true
-      });
-    }
-  };
-
-  showContactAddModal() {
-    if (!this.state.isProjectAddModalActive && !this.state.isTechnologyAddModalActive) {
-      this.setState({
-        isContactAddModalActive: true
-      });
-    }
-  }
-
-  showTechnologyAddModal() {
-    if (!this.state.isContactAddModalActive && !this.state.isProjectAddModalActive) {
-      this.setState({
-        isTechnologyAddModalActive: true
-      });
-    }
-  }
-
-  closeProjectAddModal() {
-    this.setState({
-      isProjectAddModalActive: false
-    });
-  };
-
-  closeContactAddModal() {
-    this.setState({
-      isContactAddModalActive: false
-    });
-  }
-
-  closeTechnologyAddModal() {
-    this.setState({
-      isTechnologyAddModalActive: false
-    });
-  }
 }
 
 export default connect(
@@ -207,8 +161,9 @@ export default connect(
       projectsError: state.projects.projectsError,
       loggedIn: state.admin.loggedIn,
       image: state.image.image,
-      imageError : state.image.error,
-      contactUploadError : state.contacts.uploadError,
+      imageError: state.image.error,
+      contactUploadError: state.contacts.uploadError,
+      modal: state.modal,
     };
   },
   (dispatch) => {
@@ -222,6 +177,10 @@ export default connect(
         postContact: bindActionCreators(postContact, dispatch),
         removeContact: bindActionCreators(removeContact, dispatch),
         removeTechnology: bindActionCreators(removeTechnology, dispatch),
+        addContactProperty: bindActionCreators(addContactProperty, dispatch),
+        setContactModalVisible: bindActionCreators(setContactModalVisible, dispatch),
+        setTechnologyModalVisible: bindActionCreators(setTechnologyModalVisible, dispatch),
+        setProjectModalVisible: bindActionCreators(setProjectModalVisible, dispatch),
       }
     }
   }

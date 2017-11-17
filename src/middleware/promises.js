@@ -16,7 +16,10 @@ const middleware = state => next => action => {
     store.dispatch({
       type: successAction,
       payload,
-    })
+    });
+    if (action.andThen instanceof Function) {
+      action.andThen(payload);
+    }
   }, (error) => {
     store.dispatch({
       type: failureAction,

@@ -7,16 +7,6 @@ import "./ContactAddModal.css"
 
 class ContactAddModal extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      title: null,
-      description: null,
-      url: null,
-      imageId: null,
-    };
-  }
-
   render() {
     return (
       <Modal
@@ -26,21 +16,21 @@ class ContactAddModal extends Component {
         <div className="contact-add">
           <LabeledInput
             label="Название"
-            onChange={(text) => this.updateTitle(text)}
+            onChange={(title) => this.props.addProperty({title})}
             onEnter={() => this.sendContact()}
           />
           <LabeledInput
             label="Описание"
-            onChange={(text) => this.updateDescription(text)}
+            onChange={(description) => this.props.addProperty({description})}
             onEnter={() => this.sendContact()}
           />
           <LabeledInput
             label="URL"
-            onChange={(text) => this.updateUrl(text)}
+            onChange={(url) => this.props.addProperty({url})}
             onEnter={() => this.sendContact()}
           />
           <ImageUpload
-            uploadImage={this.props.uploadImage}
+            uploadImage={(image) => this.props.uploadImage(image, (image) => this.props.addProperty({image}))}
             clearImage={this.props.clearImage}
             image={this.props.image}
             imageError={this.props.imageError}
@@ -55,28 +45,8 @@ class ContactAddModal extends Component {
     );
   }
 
-  updateTitle(title) {
-    this.setState({title})
-  }
-
-  updateDescription(description) {
-    this.setState({description})
-  }
-
-  updateUrl(url) {
-    this.setState({url})
-  }
-
   sendContact() {
-    const contact = {
-      title: this.state.title,
-      description: this.state.description,
-      url: this.state.url,
-      image: {
-        id: this.props.image ? this.props.image.id : null,
-      }
-    };
-    this.props.postContact(contact);
+    this.props.postContact(this.props.contact);
   }
 }
 

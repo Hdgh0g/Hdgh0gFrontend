@@ -15,7 +15,8 @@ const middleware = state => next => action => {
     store.dispatch({
       type: PROMISE,
       actions: action.actions,
-      payload: action.payload(credentials)
+      payload: action.payload(credentials),
+      andThen: action.andThen,
     });
   } else {
     store.dispatch({

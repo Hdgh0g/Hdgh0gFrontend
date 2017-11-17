@@ -6,12 +6,13 @@ export const IMAGE_UPLOADED = 'IMAGE_UPLOADED';
 export const IMAGE_UPLOAD_FAILURE = 'IMAGE_UPLOAD_FAILURE';
 export const IMAGE_CLEAR = 'IMAGE_CLEAR';
 
-export const uploadImage = (image) => {
+export const uploadImage = (image, andThen) => {
   return {
     type: actionTypes.AUTHORIZED_PROMISE,
     actions: [IMAGE_UPLOADING, IMAGE_UPLOADED, IMAGE_UPLOAD_FAILURE],
     payload: (credentials) => api.postImage(credentials, image),
+    andThen
   };
 };
 
-export const clearImage = () => ({type : IMAGE_CLEAR});
+export const clearImage = () => ({type: IMAGE_CLEAR});
