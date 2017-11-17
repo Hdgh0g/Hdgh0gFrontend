@@ -1,13 +1,46 @@
 import * as actionTypes from '../actions/technologies'
 
-const technologies = (state = {technologiesList: [], technologiesError: null}, action) => {
+const technologies = (state = {
+  technologiesList: [],
+  technologiesError: null,
+  removeError: null
+}, action) => {
   switch (action.type) {
     case actionTypes.TECHNOLOGIES_LOADING:
-      return {technologiesList : [], technologiesError : null}
+      return {
+        ...state,
+        technologiesList : [],
+        technologiesError : null
+      };
     case  actionTypes.TECHNOLOGIES_LOADED:
-      return {technologiesList : action.payload, technologiesError : null};
+      return {
+        ...state,
+        technologiesList : action.payload,
+        technologiesError : null
+      };
     case actionTypes.TECHNOLOGIES_LOAD_FAILURE:
-      return {technologiesList : [], technologiesError: action.error};
+      return {
+        ...state,
+        technologiesList : [],
+        technologiesError: action.error
+      };
+    case actionTypes.TECHNOLOGY_REMOVING:
+      return {
+        ...state,
+        removeError: null
+      };
+    case actionTypes.TECHNOLOGY_REMOVE_FAILURE:
+      return {
+        ...state,
+        removeError: action.error.title || action.error.message,
+      };
+    case actionTypes.TECHNOLOGY_REMOVED:
+      return {
+        ...state,
+        technologiesList: action.payload,
+        technologiesError: null,
+        removeError: null
+      };
     default:
       return state;
   }

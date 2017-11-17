@@ -9,6 +9,10 @@ export default {
     return get(`/technologies`);
   },
 
+  removeTechnology(credentials, id) {
+    return del(`/technologies/${id}`, credentials)
+  },
+
   getContacts() {
     return get(`/contacts`);
   },

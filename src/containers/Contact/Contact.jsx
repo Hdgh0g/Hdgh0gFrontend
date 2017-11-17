@@ -20,7 +20,12 @@ class Contact extends Component {
             {this.props.text ? <div className="contact-text"> {this.props.text} </div> : null}
           </div>
         </Link>
-        {this.props.loggedIn ? <Button caption="✖" onClick={() => this.props.removeContact(this.props.id)}/> : null}
+        {this.props.loggedIn ?
+          <div className="contact-button-center">
+            <Button caption="✖" onClick={() => this.props.removeContact(this.props.id)}/>
+          </div>
+          : null
+        }
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Pages.css'
-import LinkButton from '../Button/LinkButton.jsx'
+import Button from '../Button/Button.jsx'
 import range from 'lodash/range'
 import PropTypes from 'prop-types'
 
@@ -32,7 +32,7 @@ class Pages extends Component {
       maxCount = this.props.pagesCount;
     }
     return range(minCount, maxCount + 1).map((i) => {
-      return <LinkButton
+      return <Button
         key={i}
         caption={i}
         link={this.props.pageLink+(i-1)}
@@ -42,7 +42,7 @@ class Pages extends Component {
 
   renderFirstPageIfNeeded() {
     if (this.props.pagesCount > this.nearCount && this.props.currentPage - this.nearCount > 1) {
-      return <LinkButton
+      return <Button
         key="first"
         caption="На первую страницу"
         link={this.props.pageLink+(1-1)}
@@ -52,7 +52,7 @@ class Pages extends Component {
 
   renderEndPagesIfNeeded() {
     if (this.props.pagesCount > this.nearCount && this.props.currentPage + this.nearCount < this.props.pagesCount) {
-      return <LinkButton
+      return <Button
         key="end"
         caption="На последнюю страницу"
         link={this.props.pageLink+(this.props.pagesCount-1)}

@@ -2,6 +2,12 @@
 @import "../../styles/mixins";
 @import "../../styles/constants";
 
+.technology-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
 .technology {
   width: 100%;
   height: @huge-size - @middle-size;
@@ -22,3 +28,7 @@
   .upper-text
 }
 
+.technology-button-center {
+  .center-vertical;
+  margin-bottom: @small-size;
+}

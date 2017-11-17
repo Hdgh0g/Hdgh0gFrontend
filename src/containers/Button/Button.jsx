@@ -1,20 +1,23 @@
 import React, {Component} from 'react';
 import './Button.css';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router';
 
 class Button extends Component {
   render() {
-    return <div
+    return <Link
       className="button"
+      to={this.props.link}
       onClick={this.props.onClick}
     >
       {this.props.caption}
-    </div>
+    </Link>
   }
 }
 
 Button.PropTypes = {
   onClick: PropTypes.func,
+  link: PropTypes.string,
   caption: PropTypes.string
 };
 

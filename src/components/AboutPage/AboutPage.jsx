@@ -6,7 +6,7 @@ import ProjectAddModal from '../../containers/ProjectAddModal/ProjectAddModal.js
 import ContactAddModal from '../../containers/ContactAddModal/ContactAddModal.jsx'
 import TechnologyAddModal from '../../containers/TechnologyAddModal/TechnologyAddModal.jsx'
 import TopText from '../../containers/TopText/TopText.jsx'
-import {getTechnologies} from '../../actions/technologies.js'
+import {getTechnologies, removeTechnology} from '../../actions/technologies.js'
 import {getContacts, postContact, removeContact} from '../../actions/contacts.js'
 import {getProjects} from '../../actions/projects.js'
 import {clearImage, uploadImage} from '../../actions/image.js'
@@ -93,8 +93,11 @@ class AboutPage extends Component {
     let technologies = this.props.technologiesList.map(technology =>
       <Technology
         key={technology.id}
+        id={technology.id}
         image={technology.image}
         caption={technology.caption}
+        removeTechnology={this.props.actions.removeTechnology}
+        loggedIn={this.props.loggedIn}
       />);
     if (this.props.loggedIn) {
       technologies.push(<Button
@@ -218,6 +221,7 @@ export default connect(
         clearImage: bindActionCreators(clearImage, dispatch),
         postContact: bindActionCreators(postContact, dispatch),
         removeContact: bindActionCreators(removeContact, dispatch),
+        removeTechnology: bindActionCreators(removeTechnology, dispatch),
       }
     }
   }
