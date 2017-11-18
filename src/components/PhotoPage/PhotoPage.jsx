@@ -7,6 +7,11 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {getPhotos} from '../../actions/photos.js'
+import Button from "../../containers/Button/Button";
+import {setPhotoAddModalVisible} from "../../actions/modal";
+import PhotoAddModal from "../../containers/PhotoAddModal/PhotoAddModal";
+import {clearImage, uploadImageWithCaption} from "../../actions/image";
+import {setPhotoAddModalCaption} from "../../actions/modal"
 
 class PhotoPage extends Component {
 
@@ -32,6 +37,12 @@ class PhotoPage extends Component {
 
     return (
       <div className="photo-page">
+        {
+          this.props.loggedIn ?
+            <Button caption="Добавить фотографию"
+                    onClick={() => this.props.actions.setPhotoAddModalVisible(true)}
+            /> : null
+        }
         <TopText
           headerText={headerText}
           infoText={baseInfoText}
@@ -40,6 +51,16 @@ class PhotoPage extends Component {
           {this.renderPhotos()}
         </div>
         {this.renderPages()}
+        <PhotoAddModal
+          isOpen={this.props.modal.photoAdd.active}
+          onRequestClose={() => this.props.actions.setPhotoAddModalVisible(false)}
+          clearImage={this.props.actions.clearImage}
+          uploadImageWithCaption={this.props.actions.uploadImageWithCaption}
+          image={this.props.image}
+          imageError={this.props.imageError}
+          caption={this.props.modal.photoAdd.caption}
+          setPhotoAddModalCaption={this.props.actions.setPhotoAddModalCaption}
+        />
       </div>
     );
   }
@@ -76,12 +97,19 @@ export default connect(
       photosError: state.photos.photosError,
       pageInfo: state.photos.pageInfo,
       page: ownProps.location.query.page,
+      loggedIn: state.admin.loggedIn,
+      modal: state.modal,
+      imageError: state.image.error,
     }
   },
   (dispatch) => {
     return {
       actions: {
         getPhotos: bindActionCreators(getPhotos, dispatch),
+        setPhotoAddModalVisible: bindActionCreators(setPhotoAddModalVisible, dispatch),
+        uploadImageWithCaption: bindActionCreators(uploadImageWithCaption, dispatch),
+        clearImage: bindActionCreators(clearImage, dispatch),
+        setPhotoAddModalCaption: bindActionCreators(setPhotoAddModalCaption, dispatch),
       }
     }
   }

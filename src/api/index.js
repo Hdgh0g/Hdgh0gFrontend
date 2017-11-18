@@ -44,6 +44,10 @@ export default {
 
   postImage(credentials, image) {
     return postFormData(`/images`, {image}, credentials)
+  },
+
+  postImageWithCaption(image, caption, credentials) {
+    return postFormData(`/images/withCaption`, {image, caption}, credentials)
   }
 }
 
