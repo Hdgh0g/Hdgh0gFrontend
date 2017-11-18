@@ -9,6 +9,10 @@ export default {
     return get(`/technologies`);
   },
 
+  postTechnology(credentials, technology) {
+    return postJsonData(`/technologies`, technology, credentials);
+  },
+
   removeTechnology(credentials, id) {
     return del(`/technologies/${id}`, credentials)
   },

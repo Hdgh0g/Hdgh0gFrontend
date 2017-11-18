@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/technologies'
 const technologies = (state = {
   technologiesList: [],
   technologiesError: null,
-  removeError: null
+  removeError: null,
+  uploadError: null
 }, action) => {
   switch (action.type) {
     case actionTypes.TECHNOLOGIES_LOADING:
@@ -24,6 +25,23 @@ const technologies = (state = {
         technologiesList : [],
         technologiesError: action.error
       };
+    case actionTypes.TECHNOLOGY_UPLOAD_FAILURE:
+      return {
+        ...state,
+        uploadError: action.error.title || action.error.message,
+      };
+    case actionTypes.TECHNOLOGY_UPLOADED:
+      return {
+        ...state,
+        technologiesList: action.payload,
+        technologiesError: null,
+        uploadError: null
+      };
+    case actionTypes.TECHNOLOGY_UPLOADING:
+      return {
+        ...state,
+        uploadError: null
+      };
     case actionTypes.TECHNOLOGY_REMOVING:
       return {
         ...state,
@@ -41,6 +59,7 @@ const technologies = (state = {
         technologiesError: null,
         removeError: null
       };
+
     default:
       return state;
   }

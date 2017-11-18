@@ -6,13 +6,14 @@ import ProjectAddModal from '../../containers/ProjectAddModal/ProjectAddModal.js
 import ContactAddModal from '../../containers/ContactAddModal/ContactAddModal.jsx'
 import TechnologyAddModal from '../../containers/TechnologyAddModal/TechnologyAddModal.jsx'
 import TopText from '../../containers/TopText/TopText.jsx'
-import {getTechnologies, removeTechnology} from '../../actions/technologies.js'
+import {getTechnologies, postTechnology, removeTechnology} from '../../actions/technologies.js'
 import {getContacts, postContact, removeContact} from '../../actions/contacts.js'
 import {getProjects} from '../../actions/projects.js'
 import {clearImage, uploadImage} from '../../actions/image.js'
 import {
   addContactProperty, setContactModalVisible,
-  setTechnologyModalVisible, setProjectModalVisible
+  addTechnologyProperty, setTechnologyModalVisible,
+  setProjectModalVisible
 } from '../../actions/modal.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
@@ -72,11 +73,19 @@ class AboutPage extends Component {
         />
         <TechnologyAddModal
           isOpen={this.props.modal.technology.active}
-          onRequestClose={() => this.closeTechnologyAddModal()}
+          onRequestClose={() => this.props.actions.setTechnologyModalVisible(false)}
+          clearImage={this.props.actions.clearImage}
+          uploadImage={this.props.actions.uploadImage}
+          image={this.props.image}
+          imageError={this.props.imageError}
+          technologyUploadError={this.props.technologyUploadError}
+          postTechnology={this.props.actions.postTechnology}
+          technology={this.props.modal.technology.object}
+          addProperty={this.props.actions.addTechnologyProperty}
         />
         <ProjectAddModal
           isOpen={this.props.modal.project.active}
-          onRequestClose={() => this.closeProjectAddModal()}
+          onRequestClose={() => this.props.actions.setProjectModalVisible(false)}
         />
       </div>
     );
@@ -99,7 +108,7 @@ class AboutPage extends Component {
       technologies.push(<Button
         key="button"
         caption="Добавить технологию"
-        onClick={() => this.showTechnologyAddModal()}/>);
+        onClick={() => this.props.actions.setTechnologyModalVisible(true)}/>);
     }
     return technologies;
   };
@@ -144,7 +153,7 @@ class AboutPage extends Component {
       projects.push(<Button
         key="button"
         caption="Добавить проект"
-        onClick={() => this.showProjectAddModal()}/>);
+        onClick={() => this.props.actions.setProjectModalVisible(true)}/>);
     }
     return projects;
   }
@@ -163,6 +172,7 @@ export default connect(
       image: state.image.image,
       imageError: state.image.error,
       contactUploadError: state.contacts.uploadError,
+      technologyUploadError: state.technologies.uploadError,
       modal: state.modal,
     };
   },
@@ -180,6 +190,8 @@ export default connect(
         addContactProperty: bindActionCreators(addContactProperty, dispatch),
         setContactModalVisible: bindActionCreators(setContactModalVisible, dispatch),
         setTechnologyModalVisible: bindActionCreators(setTechnologyModalVisible, dispatch),
+        addTechnologyProperty: bindActionCreators(addTechnologyProperty, dispatch),
+        postTechnology: bindActionCreators(postTechnology, dispatch),
         setProjectModalVisible: bindActionCreators(setProjectModalVisible, dispatch),
       }
     }
