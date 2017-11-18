@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 class PhotoWrap extends Component {
   render() {
-    return <div className="photoWrap">
+    return <div className="photoWrap" onClick={this.props.onPhotoClick}>
       <div className="photoWrap-image-frame">
         <img alt={this.props.caption} src={ImagesUtils.getFullOrDefault(this.props.image)} className="photoWrap-image"/>
       </div>

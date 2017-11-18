@@ -8,10 +8,11 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {getPhotos} from '../../actions/photos.js'
 import Button from "../../containers/Button/Button";
-import {setPhotoAddModalVisible} from "../../actions/modal";
+import {setPhotoAddModalVisible, setPhotoBigModalVisible} from "../../actions/modal";
 import PhotoAddModal from "../../containers/PhotoAddModal/PhotoAddModal";
 import {clearImage, uploadImageWithCaption} from "../../actions/image";
 import {setPhotoAddModalCaption} from "../../actions/modal"
+import PhotoBigModal from "../../containers/PhotoBigModal/PhotoBigModal";
 
 class PhotoPage extends Component {
 
@@ -24,10 +25,6 @@ class PhotoPage extends Component {
       this.props.actions.getPhotos(newProps.page);
     }
   }
-
-  onPhotoClick(id) {
-    console.log(id);
-  };
 
   render() {
     const headerText = "В моих снах, это супер-пупер фотогаллерея.";
@@ -61,8 +58,31 @@ class PhotoPage extends Component {
           caption={this.props.modal.photoAdd.caption}
           setPhotoAddModalCaption={this.props.actions.setPhotoAddModalCaption}
         />
+        <PhotoBigModal
+          isOpen={this.props.modal.photoBig.active}
+          onRequestClose={() => this.props.actions.setPhotoBigModalVisible(false)}
+          image={this.props.selectedImage}
+          nextImage={() => this.nextImage()}
+          prevImage={() => this.prevImage()}
+        />
       </div>
     );
+  }
+
+  nextImage() {
+    const index = this.props.photosList.indexOf(this.props.selectedImage);
+    if (index + 1 >= this.props.photosList.length || index < 0) {
+      return;
+    }
+    this.props.actions.setPhotoBigModalVisible(true, this.props.photosList[index + 1].id);
+  }
+
+  prevImage() {
+    const index = this.props.photosList.indexOf(this.props.selectedImage);
+    if (index <= 0) {
+      return;
+    }
+    this.props.actions.setPhotoBigModalVisible(true, this.props.photosList[index - 1].id);
   }
 
   renderPages() {
@@ -81,7 +101,7 @@ class PhotoPage extends Component {
         key={photo.id}
         caption={photo.caption}
         image={photo.image}
-        onPhotoClick={this.onPhotoClick}
+        onPhotoClick={() => this.props.actions.setPhotoBigModalVisible(true, photo.id)}
       />)
   }
 }
@@ -89,6 +109,13 @@ class PhotoPage extends Component {
 PhotoPage.PropTypes = {
   pageInfo: PropTypes.object
 };
+
+function getSelectedImage(photosList, selectedPhotoIndex) {
+  if (!Array.isArray(photosList) || selectedPhotoIndex === null || photosList.length === 0) {
+    return null;
+  }
+  return photosList.filter(image => image.id === selectedPhotoIndex)[0];
+}
 
 export default connect(
   (state, ownProps) => {
@@ -100,6 +127,7 @@ export default connect(
       loggedIn: state.admin.loggedIn,
       modal: state.modal,
       imageError: state.image.error,
+      selectedImage: getSelectedImage(state.photos.photosList, state.modal.photoBig.selectedPhotoId),
     }
   },
   (dispatch) => {
@@ -107,6 +135,7 @@ export default connect(
       actions: {
         getPhotos: bindActionCreators(getPhotos, dispatch),
         setPhotoAddModalVisible: bindActionCreators(setPhotoAddModalVisible, dispatch),
+        setPhotoBigModalVisible: bindActionCreators(setPhotoBigModalVisible, dispatch),
         uploadImageWithCaption: bindActionCreators(uploadImageWithCaption, dispatch),
         clearImage: bindActionCreators(clearImage, dispatch),
         setPhotoAddModalCaption: bindActionCreators(setPhotoAddModalCaption, dispatch),

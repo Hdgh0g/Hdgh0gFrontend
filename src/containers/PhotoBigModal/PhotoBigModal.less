@@ -1,0 +1,28 @@
+@import "../../styles/constants";
+@import "../../styles/mixins";
+
+.photo-big {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding-left: @big-size;
+  padding-right: @big-size;
+}
+
+.photo-with-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.photo-big-image {
+  max-width:100%;
+  max-height:100%;
+  object-fit: scale-down;
+}
+
+.photo-button-center {
+  .center-vertical;
+}
